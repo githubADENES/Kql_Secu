@@ -1,0 +1,3 @@
+DeviceTvmSoftwareVulnerabilities 
+| where VulnerabilitySeverityLevel  in ( "High", "Critical")
+|  distinct  SoftwareName,  DeviceName
