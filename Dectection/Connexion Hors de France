@@ -1,0 +1,4 @@
+SigninLogs
+| where Location != "FR"
+| project  Location, city = tostring(parse_json(LocationDetails)["city"])
+| summarize logins = count() by Location,city
