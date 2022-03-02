@@ -1,0 +1,3 @@
+AuditLogs 
+| project OperationName, username = parse_json(dynamic_to_json(InitiatedBy))["user"]["userPrincipalName"]
+| summarize opname = count() by OperationName, tostring(username)
