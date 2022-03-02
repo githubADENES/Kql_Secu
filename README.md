@@ -1,2 +1,2 @@
-# Kql_Secu
+# Kql Secu
 Security kql collection
