@@ -1,0 +1,12 @@
+
+DeviceProcessEvents 
+| where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
+     | summarize nb=count() by AccountName, FileName 
+     |order by nb desc 
+
+
+      
+DeviceProcessEvents 
+| where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
+     | summarize nb=count() by AccountName 
+     |order by nb desc 
