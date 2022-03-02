@@ -1,0 +1,5 @@
+// identification de process type cmd, powershell.. etc lancés par word, excle, acrobat... etc
+
+DeviceProcessEvents
+| where InitiatingProcessFileName in~ ("acrord32.exe","Acrobat.exe",   "excel.exe",  "outlook.exe", "powerpnt.exe", "winword.exe", "mspub.exe", "visio.exe", "msaccess.exe", "eqnedt32.exe",  "mshta.exe" ,"zoom.exe")
+and FileName in~  ("cmd.exe", "powershell.exe" , "sc.exe" , "svchost.exe" ,"reg.exe" ,  "wmic.exe",  "AppVLP.exe", "bash.exe", "cscript.exe", "forfiles.exe", "hh.exe", "mftrace.exe", "msbuild.exe" ,"mshta.exe", "msiexec.exe", "regsvr32.exe", "rundll32.exe", "schtasks.exe", "scrcons.exe", "scriptrunner.exe", "sh.exe", "wscript.exe", "powershell_ise.exe","schtasks.exe", "at.exe")
