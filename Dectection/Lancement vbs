@@ -1,0 +1,4 @@
+DeviceProcessEvents
+| where InitiatingProcessFileName in~ ("cscript.exe", "wscript.exe") and not ( InitiatingProcessCommandLine contains("task_start"))
+| summarize  nb= count() by InitiatingProcessParentFileName, InitiatingProcessCommandLine  
+| order by nb desc 
