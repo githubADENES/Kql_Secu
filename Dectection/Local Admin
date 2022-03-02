@@ -1,0 +1,10 @@
+DeviceLogonEvents
+| where IsLocalAdmin == true and  TimeGenerated > ago(30d) and AccountName !contains "adm"
+| distinct  AccountName 
+|order by AccountName asc 
+
+# avec la machine
+    DeviceLogonEvents
+    | where IsLocalAdmin == true and  TimeGenerated > ago(30d) and AccountName !contains "adm"
+    | distinct  AccountName , DeviceName
+    |order by AccountName asc 
