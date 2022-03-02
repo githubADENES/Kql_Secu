@@ -1,3 +1,5 @@
+# Alx 2/03/2022
+
 DeviceTvmSoftwareVulnerabilities 
 | where VulnerabilitySeverityLevel  in ( "High", "Critical")
 |  distinct  SoftwareName,  DeviceName
