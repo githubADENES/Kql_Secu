@@ -1,0 +1,20 @@
+let failed_threshold = 100; //threshold to use for failed login times i.e how much time between each failed login
+let failed_count = 1; //threshold for failed logins i.e how many times the account failed to login
+let stdev_threshold = 1;
+let start_time = startofday(datetime(2022-01-01)); //The date to start looking for events
+let end_time = endofday(datetime(2022-05-01)); // The date to stop looking for events
+SecurityEvent
+| where TimeGenerated between (start_time .. end_time)
+| where EventID == 4625
+| project Account, TimeGenerated, Computer
+| sort by TimeGenerated asc, Account
+| serialize 
+| extend nextAccount = next(Account,1), nextTimeGenerated = next(TimeGenerated,1)
+| where Account == nextAccount
+| extend TimeDeltaInSeconds = datetime_diff("second", nextTimeGenerated, TimeGenerated)
+| where  TimeDeltaInSeconds <= failed_threshold
+| project TimeGenerated, TimeDeltaInSeconds, Account, Computer
+| summarize Failed_Logins = count(),avg(TimeDeltaInSeconds),first_failed = min(TimeGenerated), last_failed = max(TimeGenerated), standarddev = stdev(TimeDeltaInSeconds),variance= variance(TimeDeltaInSeconds), TimeDeltaList=make_list(TimeDeltaInSeconds) by Account
+| where standarddev < stdev_threshold 
+| where Failed_Logins >= failed_count
+| sort by Failed_Logins desc 
