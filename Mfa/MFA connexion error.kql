@@ -1,0 +1,9 @@
+SigninLogs
+| where TimeGenerated > ago (30d)
+| project TimeGenerated, ConditionalAccessPolicies, ResultType, ResultDescription
+| mv-expand ConditionalAccessPolicies
+| extend CAResult = tostring(ConditionalAccessPolicies.result)
+| extend CAPolicyName = tostring(ConditionalAccessPolicies.displayName)
+| where CAResult == "failure"
+| summarize CAFailureCount=count()by CAPolicyName, ResultType, ResultDescription
+| sort by CAFailureCount desc 
