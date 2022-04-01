@@ -1,0 +1,4 @@
+SigninLogs
+| where TimeGenerated > ago(30d)
+| where ResultType == 0
+| summarize ['Total Signins']=count(), ['Distinct User Signins']=dcount(UserPrincipalName) by AppDisplayName | sort by ['Distinct User Signins'] desc 
