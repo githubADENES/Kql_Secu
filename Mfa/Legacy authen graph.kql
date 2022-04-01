@@ -1,0 +1,9 @@
+SigninLogs
+| where TimeGenerated > ago(180d)
+| where ResultType in ("0", "53003")
+| where ClientAppUsed in ("Exchange ActiveSync", "Exchange Web Services", "AutoDiscover", "Unknown", "POP3", "IMAP4", "Other clients", "Authenticated SMTP", "MAPI Over HTTP", "Offline Address Book")
+| summarize
+    ['Legacy Auth Users Allowed']=dcountif(UserPrincipalName, ResultType == 0),
+    ['Legacy Auth Users Blocked']=dcountif(UserPrincipalName, ResultType == 53003)
+    by bin(TimeGenerated, 1d)
+| render timechart with (ytitle="Count",title="Legacy auth distinct users allowed vs blocked by Conditional Access")
